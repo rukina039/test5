@@ -860,7 +860,26 @@ nav ul li a.active {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    animation: shake 0.5s ease-in-out infinite; 
    }
+
+    @keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px); /* 左に5px移動 */
+    }
+    50% {
+        transform: translateX(5px); /* 右に5px移動 */
+    }
+    75% {
+        transform: translateX(-5px); /* 左に5px移動 */
+    }
+    100% {
+        transform: translateX(0); /* 元の位置に戻る */
+    }
+}
 
     .contact-image img {
     width: 80%;
