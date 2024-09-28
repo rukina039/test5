@@ -855,10 +855,17 @@ nav ul li a.active {
     text-align: center;
    }
     .contact-image {
-    margin-top: 1px;
+    position: relative; /* 位置を相対指定に変更 */
+    display: flex;      /* display:flexで確実に配置 */
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
     animation: float 3s ease-in-out infinite;
    }
-
+    .contact-image img {
+    width: 150px;
+    height: auto;
+   }
     @keyframes float {
     0% {
         transform: translate(0, 0);
@@ -870,12 +877,6 @@ nav ul li a.active {
         transform: translate(0, 0); /* 元の位置に戻る */
     }
 }
-    .contact-image img {
-    width: 150px;
-    height: auto;
-    -webkit-border-radius: 50%; /* 画像の丸めをSafari向けに */
-   }
-
     /* フッター */
     footer {
         font-size: 0.9em; /* フッターの文字サイズを小さく */
