@@ -1,4 +1,3 @@
-Rev.1
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -19,8 +18,9 @@ body {
     font-family: 'Poppins', 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #b0b0b0 !important;
-    color: #333;	
+    background-color: #ffe5b4;
+    background-image: radial-gradient(circle, #fff 1.5px, #ffe5b4 1px);
+    background-size: 20px 20px; /* ドット間の距離を調整 */
     overflow-x: hidden;
 }
 
@@ -28,6 +28,7 @@ body {
 .background {
     position: relative;
     height: 100vh;
+    max-width: 100%;
     background-image: url("images/Background_3.jpg");
     background-size: cover;
     background-position: center;
@@ -38,12 +39,14 @@ body {
 }
 
 .title {
-    background: linear-gradient(90deg, #ffa500, #ff7f50, #ff4500); /* オレンジ系のグラデーション */
+    background: linear-gradient(90deg, #ffa500, #ff7f50, #ff69b4, #ff4500);
     -webkit-background-clip: text;
     color: transparent;
     font-size: 6rem;
-    text-shadow: 1px 1px 4px rgba(255, 165, 0, 0.6); /* 軽めのシャドウ */
-    animation: popTitle 1.5s ease-in-out infinite; /* アニメーションを適用 */
+    text-shadow: 1px 1px 4px rgba(200, 50, 0, 0.2); /* 軽めのシャドウ */
+    animation: popTitle 1.5s ease-in-out infinite;
+    border-radius: 5px; /* 縁を少し丸くする場合 */
+    padding: 30px; /* 文字に対して余白を追加 */
 }
 
 @keyframes popTitle {
@@ -103,46 +106,10 @@ nav ul li a.active {
     color: #ffa500; /* アクティブ時のカラー */
 }
 
-
-/* スライドショーのセクション */
-.swiper-section {
-    position: relative;
-    z-index: 3; /* スライドショーを他のコンテンツより前に配置 */
-    margin-top: 5px; /* タイトルとの間に距離を設定 */
-    padding: 10px 0;
-}
-
-.swiper-container {
-    width: 50%;
-    height: 500px;
-    margin: 1px;
-}
-
-.swiper-slide {
-    display: flex;
-    justify-content: center; /* 水平方向に中央揃え */
-    align-items: center; /* 垂直方向に中央揃え */
-    background: transparent; /* 背景を透明に */
-    width: 100%; /* スライド全体の幅を100%に */
-}
-
-.swiper-slide iframe {
-    width: 95%;
-    height: 90%;
-}
-
-.swiper-button-next, .swiper-button-prev {
-    color: #ff4500; /* ナビゲーションボタンの色を変更 */
-}
-
-.swiper-pagination-bullet {
-    background-color: #ff4500; /* ページインジケーターの色 */
-}
-
 /* プロフィールセクション */
 .profile-section {
     display: flex;
-    justify-content: space-between;
+    max-width: 100%;
     align-items: center;
     padding: 50px;
     background: linear-gradient(90deg, #fde8c6, #f6c5a3);
@@ -150,8 +117,8 @@ nav ul li a.active {
     opacity: 0;
     transform: translateY(100px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    border-radius: 15px;
-    margin: 50px 20px;
+    border-radius: 0px;
+    margin: 50px 0px;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -166,9 +133,32 @@ nav ul li a.active {
     font-family: 'Quicksand', sans-serif;
 }
 
+/* バウンスアニメーション */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0); /* 元の位置 */
+    }
+    40% {
+        transform: translateY(-30px); /* 上に跳ねる */
+    }
+    60% {
+        transform: translateY(-15px); /* 少しだけ跳ね返る */
+    }
+}
+
+/* プロフィール画像の初期状態 */
 .profile-image {
     width: 40%;
     text-align: right;
+    opacity: 0;
+    transform: translateY(50px); /* スクロールされるまで下に位置 */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* スクロールでバウンスアニメーションを開始 */
+.profile-image.bounce-active {
+    opacity: 1;
+    animation: bounce 1.5s ease infinite;
 }
 
 .profile-image img {
@@ -226,10 +216,40 @@ nav ul li a.active {
 }
 
 
+/* スライドショーのセクション */
+.swiper-section {
+    z-index: 3; /* スライドショーを他のコンテンツより前に配置 */
+    margin-top: 5px; /* タイトルとの間に距離を設定 */
+}
+
+.swiper-container {
+    position:relative;
+    color: #ff4500; /* Orange color for the buttons */
+    width: 45%;
+    height: 500px;
+    margin-top: 5px; /* タイトルとの間に距離を設定 */
+    padding: 1px 50;
+
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    background: transparent; /* 背景を透明に */
+    width: 100%; /* スライド全体の幅を100%に */
+}
+
+.swiper-slide iframe {
+    width: 95%;
+    height: 90%;
+}
+
         /* コメント全体のレイアウト */
         .comment-container {
             display: flex;
             align-items: flex-start;
+            margin-top: 20px; /* タイトルとの間に距離を設定 */
             margin-bottom: 20px;
         }
 
@@ -243,29 +263,25 @@ nav ul li a.active {
             flex-direction: row-reverse;
         }
 
-        /* アイコンのスタイル */
-        .commenter-icon {
-            width: 100px;
-            height: 100px;
+        .commenter-icon img {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            background-color: #333;
-            margin: 0 15px;
         }
 
-        .commenter-icon img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+       .commenter-icon:hover {
+            transform: rotate(360deg); /* ホバーで回転 */
+            transition: transform 0.5s ease;
         }
 
         /* 吹き出しコメントボックス */
         .comment-box {
             position: relative;
-            background-color: #ffa500;
-            color: #fff;
+            background-color: #ffcc80;
+            color: #333;
             padding: 20px;
             border-radius: 10px;
-            max-width: 600px;
+            max-width: 100%;
             font-size: 1.2rem;
             line-height: 1.5;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -326,7 +342,7 @@ nav ul li a.active {
     font-size: 1.5rem;
     width: 1000px;
     height: 50px;
-    color: #ff4500;
+    color: #333;
     background-color: #ffcc80;
     padding: 15px;
     text-align: center;
@@ -335,6 +351,7 @@ nav ul li a.active {
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     animation: popTopic 1.5s ease-in-out infinite;
+    text-shadow: 1px 1px 4px rgba(255, 165, 0, 0.8);
 }
 
 @keyframes popTopic {
@@ -365,12 +382,14 @@ nav ul li a.active {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(-50px); /* 表示前に少し上から出る */
 }
 
 .modal.active {
     display: block;
     opacity: 1;
+    transform: translateY(0); /* 正常な位置に */
 }
 
 .modal-content {
@@ -402,17 +421,17 @@ nav ul li a.active {
     color: #333;
     margin-bottom: 15px;
     text-align: center;
-    background: linear-gradient(90deg, #ffa500, #ff7f50, #ff4500);
+    background: #333;
     -webkit-background-clip: text;
     color: transparent;
-    text-shadow: 1px 1px 4px rgba(255, 165, 0, 0.6);
+    text-shadow: 1px 1px 4px rgba(255, 165, 0, 0.7);
 }
 
 /* モーダルの本文 */
 .modal-body p {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.2rem;
-    color: #444;
+    color: #333;
     line-height: 1.6;
     text-align: center;
     padding: 10px 0;
@@ -426,7 +445,7 @@ nav ul li a.active {
 }
 
 .modal-action {
-    background-color: #ff4500;
+    background-color: #ff8c42;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -438,20 +457,31 @@ nav ul li a.active {
 
 .modal-action:hover {
     background-color: #ff7f50;
-    transform: scale(1.1);
+    transform: scale(1.1); /* ホバー時に少し拡大 */
 }
 
-/* 閉じるボタン */
+.modal-action:active {
+    transform: scale(0.85); /* クリック時に押し込まれるエフェクト */
+    background-color: #ff5500;
+}
+
+
 .close {
     color: #fff;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .close:hover {
     color: #ff4500;
+    transform: scale(1.2); /* ホバー時に少し拡大 */
+}
+
+.close:active {
+    transform: scale(0.9); /* クリック時に押し込むエフェクト */
 }
 
 
@@ -477,7 +507,7 @@ nav ul li a.active {
     flex: 2;
     padding: 20px;
     text-align: left;
-    color: #333; /* 濃いグレーに調整して、背景色に対して読みやすく */
+    color: #333; 
 }
 
 .contact-text h2 {
@@ -521,7 +551,7 @@ nav ul li a.active {
         margin: 5px 0;
         border: 1px solid #ccc;
         border-radius: 4px;
-        background-color: #ffcc80;
+        background-color: #ffe5b4;
         color: #333;
     }
 
@@ -537,6 +567,7 @@ nav ul li a.active {
         border-radius: 4px;
         background-color: #ffcc80;
         color: #333;
+        background-color: #ffe5b4;
     }
 
     button {
@@ -570,14 +601,6 @@ nav ul li a.active {
         font-size: 1em;
     }
 
-    form labelmessage {
-        font-size: 12px;
-        color: #333;
-        font-weight: normal;
-        margin-bottom: 3px;
-        display: block;
-    }
-
     form textarea {
         width: 50%;
         max-width: 400px;
@@ -586,7 +609,7 @@ nav ul li a.active {
         margin: 5px 0;
         border: 1px solid #ccc;
         border-radius: 4px;
-        background-color: #ffcc80;
+        background-color: #ffe5b4;
         color: #333;
     }
 
@@ -633,8 +656,13 @@ nav ul li a.active {
         width: 100%;
     }
 
+   .profile-image {
+       width: 60%;
+       text-align: right;
+   }
+
     .profile-image img {
-        width: 80%;
+        width: 100%;
     }
 
     /* ソーシャルリンクの文字サイズ調整 */
@@ -647,14 +675,6 @@ nav ul li a.active {
     }
 
         /* アイコンのスタイル */
-        .commenter-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #333;
-            margin: 0 15px;
-        }
-
         .commenter-icon img {
             width: 50px;
             height: 50px;
@@ -762,8 +782,8 @@ nav ul li a.active {
     <section class="profile-section" id="profile">
         <div class="profile-text">
             <h2>プロフィール</h2>
-            <p>ヒロ</p>
-            <p>0日生まれ。</p>
+            <p>イシダテツヒロ</p>
+            <p>1997年11月10日生まれ。</p>
             <p>作編曲家、Track maker。</p>
             <p>音楽専門学校を卒業後、作編曲家として活動。</p>
             <p>Youtubeでは自身のオリジナル曲や音楽制作に役立つチュートリアル動画を投稿。</p>
@@ -780,10 +800,10 @@ nav ul li a.active {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <ul>
-    <li><a href="https://www.instagrget="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
-<li><a href="https://twitter.com4444" target="_blank">
+    <li><a href="https://www.instagram.com/ishida_tetsuhiro" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+<li><a href="https://twitter.com/tetsuhiro4444" target="_blank">
     <i class="fa-x"></i> (旧Twitter)</a></li>
-    <li><a href="https://www.youuuA_w/featured"><i class="fab fa-youtube"></i> YouTube</a></li>
+    <li><a href="https://www.youtube.com/channel/UCpI9-Zb9cgYSUks_iouuA_w/featured"><i class="fab fa-youtube"></i> YouTube</a></li>
 </ul>
     </section>
 
@@ -794,22 +814,22 @@ nav ul li a.active {
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe width="5en-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/XgM6GtHD3ig?si=vA7Z-Vn2V2Du0HRR&amp;start=19" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe width="5en-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/XsaHCe73H0o?si=zVoCNetUhMQWpC4t&amp;start=5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe src="httre; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/1KTBEvW8LMc?si=XuxunhSWMw6Mg_ba" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe src="httclipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/n_K9PfgQQko?si=bm6LjQMTamAKEZh4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
         </div>
@@ -824,7 +844,7 @@ nav ul li a.active {
     <div class="comment-container left">
         <!-- コメントする人のアイコン -->
         <div class="commenter-icon">
-            <img src="https://via.placeholder.com/50" alt="Commenter">
+            <img src="images/イシダテツヒロ_600_600-透過.png" alt="オレンジバケツ">
         </div>
 
         <!-- 吹き出しコメントボックス -->
@@ -837,7 +857,7 @@ nav ul li a.active {
     <div class="comment-container right">
         <!-- コメントする人のアイコン -->
         <div class="commenter-icon">
-            <img src="https://via.placeholder.com/50" alt="Commenter">
+            <img src="images/フリー画像_分からない.png" alt="Commenter">
         </div>
 
         <!-- 吹き出しコメントボックス -->
@@ -850,14 +870,15 @@ nav ul li a.active {
     <div class="comment-container left">
         <!-- コメントする人のアイコン -->
         <div class="commenter-icon">
-            <img src="https://via.placeholder.com/50" alt="Commenter">
+            <img src="images/イシダテツヒロ_驚き.png" alt="オレンジバケツ">
         </div>
 
         <!-- 吹き出しコメントボックス -->
         <div class="comment-box left">
             <p>え！知らない⁉</p>
             <p>「Ishida Studio」を知らないなんて損をしているかも</p>
-            <p>それでは、「Ishida Studio」についてご紹介しますね</p>
+            <p>今から「Ishida Studio」の世界にご案内いたします！</p>
+            <p>※クリックすると詳細が確認できます‼</p>
 
         </div>
     </div>
@@ -879,7 +900,7 @@ nav ul li a.active {
                             <p>僕がYoutube動画で作ったTrackがダウンロードできます（【FANBOX Project File】と書いてある物）</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="modal-action">ダウンロード</button>
+                            <a href="https://ishidamusic.fanbox.cc/" class="modal-action" target="_blank">FANBOXはこちら</a>
                         </div>
                     </div>
                 </div>
@@ -898,7 +919,7 @@ nav ul li a.active {
                             <p>不定期にSample Pack と Synthe PresetsをFANBOX限定で配布します。</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="modal-action">ダウンロード</button>
+                            <a href="https://ishidamusic.fanbox.cc/" class="modal-action" target="_blank">FANBOXはこちら</a>
                         </div>
                     </div>
                 </div>
@@ -917,7 +938,7 @@ nav ul li a.active {
                             <p>FANBOX限定で僕が作ったTrackの解説動画が見れます。Youtube動画よりさらに詳しく解説します。</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="modal-action">視聴する</button>
+                            <a href="https://ishidamusic.fanbox.cc/" class="modal-action" target="_blank">FANBOXはこちら</a>
                         </div>
                     </div>
                 </div>
@@ -936,7 +957,7 @@ nav ul li a.active {
                             <p>音楽制作に役立つ記事や、機材紹介、ブログなどを見る事ができます。</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="modal-action">記事を見る</button>
+                            <a href="https://ishidamusic.fanbox.cc/" class="modal-action" target="_blank">FANBOXはこちら</a>
                         </div>
                     </div>
                 </div>
@@ -955,7 +976,7 @@ nav ul li a.active {
                             <p>Discordサーバーへ招待します。クリエイターが交流できる場を作りました。お互いに学び合ったり、制作の相談をしたりすることができます。</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="modal-action">参加する</button>
+                            <a href="https://ishidamusic.fanbox.cc/" class="modal-action" target="_blank">FANBOXはこちら</a>
                         </div>
                     </div>
                 </div>
@@ -963,29 +984,42 @@ nav ul li a.active {
         </div>
     </section>
 
+    <!-- 左側のコメント -->
+    <div class="comment-container left">
+        <!-- コメントする人のアイコン -->
+        <div class="commenter-icon">
+            <img src="images/イシダテツヒロ_キャー！.png" alt="オレンジバケツ">
+        </div>
+
+        <!-- 吹き出しコメントボックス -->
+        <div class="comment-box left">
+            <p>皆さんに喜んで貰えるように全力でサポートしますので、ご参加お待ちしております(^^♪　　<a href="https://ishidamusic.fanbox.cc/" class="modal-action" target="_blank">FANBOXはこちら</a>
+        </div>
+    </div>
+
     <!-- 問い合わせセクション -->
     <section id="contact" class="contact-section">
         <div class="contact-text">
             <h2>楽曲制作等のお問い合わせ(CONTACT)</h2>
             <p>下記フォームより必要事項を記入いただきSendボタンを押してください。(Please fill in the necessary information on the form and press the send button.)</p>
-            <p><span class="highlight">きること</span></p>
+            <p><span class="highlight">イシダテツヒロができること</span></p>
             <p><span class="highlight">・インスト曲の楽曲制作</span></p>
             <p><span class="highlight">・歌物の作曲、編曲</span></p>
 
             <form action="/send" method="post">
-                <label for="name">お名前(Name):</label>
+                <label for="name">お名前・ニックネーム(Name)</label>
                 <input type="text" id="name" name="name" required>
                 <br>
-                <label for="email">メールアドレス(Mail)※必須:</label>
+                <label for="email">メールアドレス(Mail)※必須</label>
                 <input type="email" id="email" name="email" required>
                 <br>
-                <label for="budget">ご予算(Budget):</label>
-                <input type="text" id="budget" name="budget" required>
+                <label for="budget">ご予算(Budget)</label>
+                <input type="text" id="budget" name="budget">
                 <br>
-                <label for="subject">題名(Title):</label>
+                <label for="subject">問い合わせ内容(Title)※必須</label>
                 <input type="text" id="subject" name="subject" required>
                 <br>
-                <label for="message">メッセージ(Message):</label>
+                <label for="message">メッセージ(Message)</label>
                 <textarea id="message" name="message" required></textarea>
                 <br>
                 <button type="submit">Send</button>
@@ -1007,6 +1041,17 @@ nav ul li a.active {
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
 <script>
+
+window.addEventListener('scroll', function() {
+    var profileImage = document.querySelector('.profile-image');
+    var sectionPosition = profileImage.getBoundingClientRect().top;
+    var screenPosition = window.innerHeight / 1.3;
+
+    if (sectionPosition < screenPosition) {
+        profileImage.classList.add('bounce-active');
+    }
+});
+
     // SwiperJSの初期化
     var swiper = new Swiper('.swiper-container', {
         loop: true,
