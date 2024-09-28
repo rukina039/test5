@@ -719,8 +719,17 @@ nav ul li a.active {
     text-shadow: 1px 1px 4px rgba(200, 50, 0, 0.3); /* 軽めのシャドウ */
     border-radius: 5px; /* 縁を少し丸くする場合 */
     padding: 30px; /* 文字に対して余白を追加 */
-    animation: slideText 3s ease forwards infinite, popScale 3s ease-in-out infinite;
+    animation: shine 3s linear infinite, popScale 3s ease-in-out infinite;
     }
+    
+ @keyframes shine {
+    0% {
+       background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+ }
     
     /* ナビゲーションバー */
     nav ul {
