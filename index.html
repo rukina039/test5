@@ -88,17 +88,7 @@ body {
     padding: 30px; /* 文字に対して余白を追加 */
     background-size: 200% 100%; /* 背景を大きくしておく */
     background-position: 100% 0; /* 初期状態を左端に設定 */
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px); /* 少し下から */
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0); /* 元の位置に */
-    }
+    will-change: transform, opacity, background-position;
 }
     
 @-webkit-keyframes fadeIn {
@@ -111,7 +101,25 @@ body {
         transform: translateY(0);
     }
 }
-
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* 少し下から */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* 元の位置に */
+    }
+}
+    
+@-webkit-keyframes slideText {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
 @keyframes slideText {
     0% {
         background-position: 100 0; /* 左から開始 */
@@ -123,32 +131,24 @@ body {
         background-position: 0 100%; /* 左から開始 */
     }
 }
-@webkit-keyframes slideText {
-    0% {
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: -100% 0;
-    }
-}
 
-@keyframes popScale {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1); /* 少し拡大 */
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 @-webkit-keyframes popScale {
     0% {
         transform: scale(1);
     }
     50% {
         transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes popScale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* 少し拡大 */
     }
     100% {
         transform: scale(1);
