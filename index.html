@@ -82,6 +82,7 @@ body {
     color: transparent;
     font-size: 6rem;
     text-shadow: 1px 1px 4px rgba(200, 50, 0, 0.1); /* 軽めのシャドウ */
+    -webkit-animation: fadeIn 2s ease-out forwards, slideText 3s ease forwards infinite, popScale 3s ease-in-out infinite;
     animation: fadeIn 2s ease-out forwards, slideText 3s ease forwards infinite, popScale 3s ease-in-out infinite;
     border-radius: 5px; /* 縁を少し丸くする場合 */
     padding: 30px; /* 文字に対して余白を追加 */
@@ -99,6 +100,17 @@ body {
         transform: translateY(0); /* 元の位置に */
     }
 }
+    
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 @keyframes slideText {
     0% {
@@ -111,6 +123,14 @@ body {
         background-position: 0 100%; /* 左から開始 */
     }
 }
+@-webkit-keyframes slideText {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
 
 @keyframes popScale {
     0% {
@@ -118,6 +138,17 @@ body {
     }
     50% {
         transform: scale(1.1); /* 少し拡大 */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@-webkit-keyframes popScale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
     }
     100% {
         transform: scale(1);
