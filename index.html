@@ -10,6 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
+    <!-- 以下、セキュリティ対策 -->
+    <!-- XSS 対策 -->
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <!-- クリックジャッキング対策 -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <!-- MIME タイプスニッフィングを防ぐ -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- Referrer Policy -->
+    <meta name="referrer" content="no-referrer">
+    <!-- Content Security Policy (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' https://unpkg.com 'unsafe-inline'; img-src 'self'; font-src 'self' https://fonts.gstatic.com;">
+    
 </head>
 
 <style>
