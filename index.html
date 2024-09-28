@@ -616,6 +616,18 @@ nav ul li a.active {
 
 /* モバイル対応 */
 @media screen and (max-width: 768px) {
+
+    .title {
+    background: linear-gradient(90deg, #ffa500, #ff7f50, #ff69b4, #ff4500);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 3rem;
+    text-shadow: 1px 1px 4px rgba(200, 50, 0, 0.2); /* 軽めのシャドウ */
+    animation: popTitle 1.5s ease-in-out infinite;
+    border-radius: 5px; /* 縁を少し丸くする場合 */
+    padding: 30px; /* 文字に対して余白を追加 */
+    }
+    
     /* ナビゲーションバー */
     nav ul {
         flex-wrap: wrap; /* 複数行に対応させる */
