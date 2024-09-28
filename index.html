@@ -1,47 +1,815 @@
+Rev.1
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Portfolio</title>
+    <title>ホームページ</title>
+    <!-- Google FontsからPoppinsとQuicksandを読み込む -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 
-    <!-- Swiper CSS -->
-        <link rel="stylesheet" href="style.css">
-　　    <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
 </head>
-<body>
-    <header>
-        <h1>Ishida Music Lounge</h1>
-    </header>
 
+<style>
+/* 基本設定 */
+body {
+    font-family: 'Poppins', 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #b0b0b0 !important;
+    color: #333;	
+    overflow-x: hidden;
+}
+
+/* タイトルと背景設定 */
+.background {
+    position: relative;
+    height: 100vh;
+    background-image: url("images/Background_3.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* 背景は下に配置 */
+}
+
+.title {
+    background: linear-gradient(90deg, #ffa500, #ff7f50, #ff4500); /* オレンジ系のグラデーション */
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 6rem;
+    text-shadow: 1px 1px 4px rgba(255, 165, 0, 0.6); /* 軽めのシャドウ */
+    animation: popTitle 1.5s ease-in-out infinite; /* アニメーションを適用 */
+}
+
+@keyframes popTitle {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px); /* 中央から10px上に移動 */
+    }
+    100% {
+        transform: translateY(0); /* 元に戻る */
+    }
+}
+
+/* ナビゲーションバー */
+nav {
+    display: none; /* 初期状態で非表示 */
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    border-radius: 0 0 10px 10px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav.visible {
+    display: block; /* スクロール時に表示 */
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* 右寄せにする */
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #ff4500;
+}
+
+nav ul li a.active {
+    color: #ffa500; /* アクティブ時のカラー */
+}
+
+
+/* スライドショーのセクション */
+.swiper-section {
+    position: relative;
+    z-index: 3; /* スライドショーを他のコンテンツより前に配置 */
+    margin-top: 5px; /* タイトルとの間に距離を設定 */
+    padding: 10px 0;
+}
+
+.swiper-container {
+    width: 50%;
+    height: 500px;
+    margin: 1px;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    background: transparent; /* 背景を透明に */
+    width: 100%; /* スライド全体の幅を100%に */
+}
+
+.swiper-slide iframe {
+    width: 95%;
+    height: 90%;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #ff4500; /* ナビゲーションボタンの色を変更 */
+}
+
+.swiper-pagination-bullet {
+    background-color: #ff4500; /* ページインジケーターの色 */
+}
+
+/* プロフィールセクション */
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background: linear-gradient(90deg, #fde8c6, #f6c5a3);
+    color: #333;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    border-radius: 15px;
+    margin: 50px 20px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-text {
+    width: 50%;
+    font-size: 1.5rem;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.profile-image {
+    width: 40%;
+    text-align: right;
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* SNSリンクセクションのスタイル */
+.social-links {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.social-links h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #ff4500; /* オレンジに設定 */
+}
+
+.social-links ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.social-links ul li {
+    margin: 0 15px;
+}
+
+.social-links ul li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #555;
+    font-family: 'Quicksand', sans-serif;
+    transition: color 0.3s ease;
+}
+
+.social-links ul li a:hover {
+    color: #ff4500;
+}
+
+.social-links ul li a i {
+    font-size: 2rem; /* アイコンのサイズ */
+}
+
+.fa-x:before {
+    content: 'U+1d54f'; /* Xを表示 */
+    font-family: sans-serif;
+    font-weight: bold; /* 太字に設定 */
+    font-style: normal; /* イタリックを無効に */
+    font-size: 33px; /* 必要に応じてフォントサイズを調整 */
+}
+
+
+        /* コメント全体のレイアウト */
+        .comment-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        /* 左側のコメントのレイアウト */
+        .comment-container.left {
+            flex-direction: row;
+        }
+
+        /* 右側のコメントのレイアウト */
+        .comment-container.right {
+            flex-direction: row-reverse;
+        }
+
+        /* アイコンのスタイル */
+        .commenter-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #333;
+            margin: 0 15px;
+        }
+
+        .commenter-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        /* 吹き出しコメントボックス */
+        .comment-box {
+            position: relative;
+            background-color: #ffa500;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 吹き出しの三角形を左に表示 */
+        .comment-box.left::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -15px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-right-color: #ffa500;
+            border-left: 0;
+        }
+
+        /* 吹き出しの三角形を右に表示 */
+        .comment-box.right::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -15px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-left-color: #ffa500;
+            border-right: 0;
+        }
+
+
+/* トピックスセクション */
+.topics-section {
+    background: linear-gradient(135deg, #ff8c42, #ffe5b4);
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.topics-title {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: popTitle 1.5s ease-in-out infinite;
+}
+
+.topics-container {
+    display: grid;
+    gap: 5px;
+    padding: 20px;
+    justify-items: center;
+}
+
+.topic-title {
+    font-size: 1.5rem;
+    width: 1000px;
+    height: 50px;
+    color: #ff4500;
+    background-color: #ffcc80;
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: popTopic 1.5s ease-in-out infinite;
+}
+
+@keyframes popTopic {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.topic-title:hover {
+    background-color: #ff8c42;
+    transform: scale(1.1);
+}
+
+/* モーダルの基本スタイル */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.modal.active {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #ff8c42, #ffe5b4);
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    animation: popIn 0.5s ease-out;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* モーダルのヘッダー */
+.modal-header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    background: linear-gradient(90deg, #ffa500, #ff7f50, #ff4500);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 1px 1px 4px rgba(255, 165, 0, 0.6);
+}
+
+/* モーダルの本文 */
+.modal-body p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2rem;
+    color: #444;
+    line-height: 1.6;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* モーダルのフッター */
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal-action {
+    background-color: #ff4500;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-action:hover {
+    background-color: #ff7f50;
+    transform: scale(1.1);
+}
+
+/* 閉じるボタン */
+.close {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ff4500;
+}
+
+
+.contact-section {
+    display: flex;
+    background-color: rgba(255, 166, 77, 0.6); /* topicのグラデーションの最も薄い色に近い色を設定 */
+    color: #fff;
+    max-width: 100%;
+    margin: 50px auto 0 auto;
+    padding: 0;
+    border-radius: 0px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+    .contact-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.contact-text {
+    flex: 2;
+    padding: 20px;
+    text-align: left;
+    color: #333; /* 濃いグレーに調整して、背景色に対して読みやすく */
+}
+
+.contact-text h2 {
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    color: #222; /* タイトルは少し濃いめの色に */
+}
+
+.contact-text p {
+    font-size: 15px;
+    margin-top: 1px;
+    color: #333; /* 本文も濃いグレーに設定 */
+}
+.contact-image {
+    position: absolute; /* 絶対位置を指定 */
+    bottom: 0; /* 下に配置 */
+    right: 0; /* 右に配置 */
+    padding: 10px; /* 少し余白を追加 */
+}
+
+.contact-image img {
+    width: 300px;
+    border-radius: 50%;
+}
+    .highlight {
+        background-color: rgba(255, 140, 0, 0.3); /* 薄いオレンジ */
+        padding: 0 5px;
+    }
+
+    form label {
+        font-size: 12px;
+        color: #333;
+        font-weight: normal;
+        margin-bottom: 3px;
+        display: block;
+    }
+
+    form input {
+        width: 10%;
+        padding: 5px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #ffcc80;
+        color: #333;
+    }
+
+    form input::placeholder,
+    form textarea::placeholder {
+        color: #666;
+    }
+
+    #subject {
+        width: 40%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #ffcc80;
+        color: #333;
+    }
+
+    button {
+        background-color: #ff8c42;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #ff6f00;
+        transform: scale(1.1);
+        text-decoration: underline;
+    }
+
+    footer {
+        text-align: center;
+        padding: 15px;
+        background-color: #ff6f00;
+        color: #fff;
+        position: relative;
+        width: 100%;
+        bottom: 0;
+        margin-top: 0;
+    }
+
+    footer p {
+        margin: 0;
+        font-size: 1em;
+    }
+
+    form labelmessage {
+        font-size: 12px;
+        color: #333;
+        font-weight: normal;
+        margin-bottom: 3px;
+        display: block;
+    }
+
+    form textarea {
+        width: 50%;
+        max-width: 400px;
+        height: 30px;
+        padding: 50px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #ffcc80;
+        color: #333;
+    }
+
+
+/* モバイル対応 */
+@media screen and (max-width: 768px) {
+    /* ナビゲーションバー */
+    nav ul {
+        flex-wrap: wrap; /* 複数行に対応させる */
+        justify-content: space-between; /* 左右に余白を設定 */
+    }
+    nav ul li {
+        width: 45%; /* リスト項目を2列に調整 */
+        margin: 5px 0; /* 縦方向の間隔を設定 */
+    }
+    nav ul li a {
+        font-size: 0.75rem; /* フォントサイズを調整 */
+    }
+
+    /* モーダルが表示されているときnavを非表示 */
+    .modal.active ~ nav {
+        display: none;
+    }
+
+    /* タイトルサイズ調整 */
+    .title {
+        font-size: 3rem; /* タイトルのサイズを小さく */
+    }
+
+    /* スライドショーの調整 */
+    .swiper-container {
+        width: 100%;
+        height: 300px;
+    }
+
+    /* プロフィールセクション */
+    .profile-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .profile-text, .profile-image {
+        width: 100%;
+    }
+
+    .profile-image img {
+        width: 80%;
+    }
+
+    /* ソーシャルリンクの文字サイズ調整 */
+    .social-links h2 {
+        font-size: 1.5rem; /* タイトルを小さく */
+    }
+
+    .social-links ul li a {
+        font-size: 1rem; /* リンクの文字サイズを調整 */
+    }
+
+        /* アイコンのスタイル */
+        .commenter-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #333;
+            margin: 0 15px;
+        }
+
+        .commenter-icon img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+
+    .modal-content {
+        width: 95%;  /* モバイル画面幅の95%を占める */
+        height: 90vh; /* ビューポートの高さの90%を占める */
+        margin: 5vh auto; /* 上下5%の余白を確保 */
+        padding: 10px; /* コンテンツのパディングを少し小さく */
+        max-width: none; /* 最大幅の制限を解除 */
+        border-radius: 10px; /* 角を少し丸く */
+    }
+
+    .topics-title {
+        font-size: 2.0em;
+    }
+    
+    .topic-title {
+        font-size: 1.5rem;
+        width: 100%;
+        height: 100%;
+    color: #ff4500;
+    background-color: #ffcc80;
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* トピックセクションの調整 */
+    .topics-container {
+        grid-template-columns: 1fr; /* 1カラム表示に変更 */
+    }
+
+    .topic h3 {
+        font-size: 1.5em; /* タイトルサイズを調整 */
+    }
+
+    .topic p {
+        font-size: 1.1em; /* 段落の文字サイズを少し小さく */
+    }
+
+    /* お問い合わせフォームの幅調整 */
+    form input, form textarea {
+        width: 90%; /* フォームの幅を広げる */
+    }
+
+    #subject {
+        width: 90%; /* タイトルの入力欄も広げる */
+    }
+
+    textarea#message {
+    width: calc(100% - 20px); /* 幅に余白を考慮 */
+    height: 150px;
+    box-sizing: border-box; /* 幅にpaddingやborderを含める */
+    }
+    
+    /* 画像を問い合わせフォームの下に配置 */
+    .contact-section {
+    display: flex;
+    flex-direction: column; /* 縦並びにする */
+    text-align: center;
+   }
+    .contact-image {
+    position: relative; /* 位置を相対指定に変更 */
+    display: flex;      /* display:flexで確実に配置 */
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+   }
+
+    .contact-image img {
+    width: 80%;
+    height: auto;
+    -webkit-border-radius: 50%; /* 画像の丸めをSafari向けに */
+   }
+
+    /* フッター */
+    footer {
+        font-size: 0.9em; /* フッターの文字サイズを小さく */
+    }
+}
+
+</style>
+
+<body>
+    <div class="background" style="background-color: #d3d3d3;">
+        <h1 class="title">Welcome Ishida Music</h1>
+    </div>
     <nav>
-        <a href="#profile">プロフィール</a>
-        <a href="#topics-section">FANBOX</a>
-        <a href="#contact">楽曲制作等のお問い合わせ</a>
+        <ul>
+            <li><a href="#profile">プロフィール</a></li>
+            <li><a href="#topics-section">FANBOX</a></li>
+            <li><a href="https://tetsuhiro.booth.pm/">BOOTH</a></li>
+            <li><a href="#contact">楽曲制作等のお問い合わせ</a></li>
+        </ul>
     </nav>
 
-    <!-- Swiper スライドショー -->
+    <!-- プロフィールセクション -->
+    <section class="profile-section" id="profile">
+        <div class="profile-text">
+            <h2>プロフィール</h2>
+            <p>ヒロ</p>
+            <p>0日生まれ。</p>
+            <p>作編曲家、Track maker。</p>
+            <p>音楽専門学校を卒業後、作編曲家として活動。</p>
+            <p>Youtubeでは自身のオリジナル曲や音楽制作に役立つチュートリアル動画を投稿。</p>
+            <p>ダンスミュージックを主体として作編曲を手掛けている。</p>
+        </div>
+        <div class="profile-image">
+            <img src="images/illustration_3.png" alt="プロフィール画像">
+        </div>
+    </section>
+
+    <!-- SNSリンクセクション -->
+    <section class="social-links">
+        <h2>Follow Me on Social Media</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<ul>
+    <li><a href="https://www.instagrget="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+<li><a href="https://twitter.com4444" target="_blank">
+    <i class="fa-x"></i> (旧Twitter)</a></li>
+    <li><a href="https://www.youuuA_w/featured"><i class="fab fa-youtube"></i> YouTube</a></li>
+</ul>
+    </section>
+
+<!-- Swiper スライドショー -->
+<section class="swiper-section">
     <div class="swiper-container">
         <div class="swiper-wrapper">
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/XgM6GtHD3ig?si=vA7Z-Vn2V2Du0HRR&amp;start=19" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="5en-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/XsaHCe73H0o?si=zVoCNetUhMQWpC4t&amp;start=5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="5en-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe src="https://www.youtube.com/embed/1KTBEvW8LMc?si=XuxunhSWMw6Mg_ba" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="httre; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
-                <iframe src="https://www.youtube.com/embed/n_K9PfgQQko?si=bm6LjQMTamAKEZh4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="httclipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
         </div>
@@ -52,60 +820,145 @@
         <div class="swiper-button-prev"></div>
     </div>
 
-    <!-- プロフィールセクション -->
-    <section id="profile" class="profile-section">
-        <div class="profile-text">
-            <h2>プロフィール</h2>
-            <p>イシダ テツヒロ</p>
-            <p>1997年11月10日生まれ。</p>
-            <p>作編曲家、Track maker。</p>
-            <p>音楽専門学校を卒業後、作編曲家として活動。</p>
-            <p>Youtubeでは自身のオリジナル曲や音楽制作に役立つチュートリアル動画を投稿。</p>
-            <p>ダンスミュージックを主体として作編曲を手掛けている。</p>
+    <!-- 左側のコメント -->
+    <div class="comment-container left">
+        <!-- コメントする人のアイコン -->
+        <div class="commenter-icon">
+            <img src="https://via.placeholder.com/50" alt="Commenter">
         </div>
-        <div class="sns-links">
-            <h3 class="links-title">LINK</h3>
-            <a href="https://twitter.com/tetsuhiro4444">X(旧Twitter)</a>
-            <a href="https://www.instagram.com/ishida_tetsuhiro">Instagram</a>
-            <a href="https://www.youtube.com/channel/UCpI9-Zb9cgYSUks_iouuA_w/featured">YouTube</a>
-            <a href="https://tetsuhiro.booth.pm/">Booth</a>
-            <a href="https://ishidamusic.fanbox.cc/">FANBOX</a>
-        </div>
-    </section>
 
-    <!-- 新しいセクション -->
+        <!-- 吹き出しコメントボックス -->
+        <div class="comment-box left">
+            <p>ところで、「Ishida Studio」をご存じですか？</p>
+        </div>
+    </div>
+
+    <!-- 右側のコメント -->
+    <div class="comment-container right">
+        <!-- コメントする人のアイコン -->
+        <div class="commenter-icon">
+            <img src="https://via.placeholder.com/50" alt="Commenter">
+        </div>
+
+        <!-- 吹き出しコメントボックス -->
+        <div class="comment-box right">
+            <p>いや～、聞いたことないですね。。。</p>
+        </div>
+    </div>
+
+    <!-- 左側のコメント -->
+    <div class="comment-container left">
+        <!-- コメントする人のアイコン -->
+        <div class="commenter-icon">
+            <img src="https://via.placeholder.com/50" alt="Commenter">
+        </div>
+
+        <!-- 吹き出しコメントボックス -->
+        <div class="comment-box left">
+            <p>え！知らない⁉</p>
+            <p>「Ishida Studio」を知らないなんて損をしているかも</p>
+            <p>それでは、「Ishida Studio」についてご紹介しますね</p>
+
+        </div>
+    </div>
+
+    <!-- トピックスセクション -->
     <section id="topics-section" class="topics-section">
-        <h2 class="topics-title">Ishida Studioの紹介(FANBOX)</h2>
+        <h2 class="topics-title">Ishida Studioのご紹介 (FANBOX)</h2>
         <div class="topics-container">
+            <!-- トピック1 -->
             <div class="topic">
-                <h3>Ishida Studioとは</h3>
-                <p>作編曲家、Track makerのイシダテツヒロによるコミュニティ。Ishida Studioでは僕の音楽制作の全てをここでお教えします。音楽を作ってみたい、トラックのクオリティを上げたい。音楽が大好きな仲間が集まり楽しく制作する事ができます。初心者〜上級者に役立つコンテンツです。</p>
-                <p>以下に、Ishida Studioのトラック制作に役立つコンテンツを紹介します</p>
+                <h1 id="modalBtn1" class="topic-title" style="cursor: pointer;">Ableton LiveのProject Fileのダウンロードができます。</h1>
+                <div id="myModal1" class="modal">
+                    <div class="modal-content">
+                        <span class="close" data-target="myModal1">&times;</span>
+                        <div class="modal-header">
+                            <h1>Ableton LiveのProject Fileのダウンロードができます。</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>僕がYoutube動画で作ったTrackがダウンロードできます（【FANBOX Project File】と書いてある物）</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action">ダウンロード</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- トピック2 -->
             <div class="topic">
-                <h3>コンテンツ 1：Project File (Ableton Live) のダウンロード</h3>
-                <p>僕がYoutube動画で作ったTrackがダウンロードできます（【FANBOX Project File】と書いてある物）</p>
+                <h1 id="modalBtn2" class="topic-title" style="cursor: pointer;">FANBOX限定のSample PackとSynthe Presetsをダウンロード可能</h1>
+                <div id="myModal2" class="modal">
+                    <div class="modal-content">
+                        <span class="close" data-target="myModal2">&times;</span>
+                        <div class="modal-header">
+                            <h1>FANBOX限定のSample PackとSynthe Presetsをダウンロード可能です。</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>不定期にSample Pack と Synthe PresetsをFANBOX限定で配布します。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action">ダウンロード</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- トピック3 -->
             <div class="topic">
-                <h3>コンテンツ 2：FANBOX限定のSample Pack & Synthe Presetsのダウンロード</h3>
-                <p>不定期にSample Pack と Synthe PresetsをFANBOX限定で配布します。</p>
+                <h1 id="modalBtn3" class="topic-title" style="cursor: pointer;">FANBOX限定のTrack制作のチュートリアル動画</h1>
+                <div id="myModal3" class="modal">
+                    <div class="modal-content">
+                        <span class="close" data-target="myModal3">&times;</span>
+                        <div class="modal-header">
+                            <h1>FANBOX限定のTrack制作のチュートリアル動画</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>FANBOX限定で僕が作ったTrackの解説動画が見れます。Youtube動画よりさらに詳しく解説します。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action">視聴する</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- トピック4 -->
             <div class="topic">
-                <h3>コンテンツ 3：FANBOX限定のTrack制作のチュートリアル動画</h3>
-                <p>FANBOX限定で僕が作ったTrackの解説動画が見れます。Youtube動画よりさらに詳しく解説します。</p>
+                <h1 id="modalBtn4" class="topic-title" style="cursor: pointer;">音楽制作に関する記事</h1>
+                <div id="myModal4" class="modal">
+                    <div class="modal-content">
+                        <span class="close" data-target="myModal4">&times;</span>
+                        <div class="modal-header">
+                            <h1>音楽制作に関する記事</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>音楽制作に役立つ記事や、機材紹介、ブログなどを見る事ができます。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action">記事を見る</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- トピック5 -->
             <div class="topic">
-                <h3>コンテンツ 4：音楽制作に関する記事</h3>
-                <p>音楽制作に役立つ記事や、機材紹介、ブログなどを見る事ができます。</p>
-            </div>
-            <div class="topic">
-                <h3>コンテンツ 5：Ishida StudioのDiscord Serverへ招待</h3>
-                <p>Discordサーバーへ招待します。クリエイターが交流できる場を作りました。お互いに学び合ったり、制作の相談をしたりすることができます。</p>
-            </div>
-            <div class="topic">
-                <h3>皆さんに喜んで貰えるように全力でサポートします！</h3>
-                <p>サポートしてもらえたらすごく嬉しいです！ここだけの情報や限定コンテンツをお届けしており、もっと良いものを作れるよう頑張ります。ぜひよろしくお願いします！</p>
-                <a href="https://ishidamusic.fanbox.cc/plans" target="_blank">FANBOXこちら</a>
+                <h1 id="modalBtn5" class="topic-title" style="cursor: pointer;">Ishida StudioのDiscord Serverへ招待</h1>
+                <div id="myModal5" class="modal">
+                    <div class="modal-content">
+                        <span class="close" data-target="myModal5">&times;</span>
+                        <div class="modal-header">
+                            <h1>Ishida StudioのDiscord Serverへ招待</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>Discordサーバーへ招待します。クリエイターが交流できる場を作りました。お互いに学び合ったり、制作の相談をしたりすることができます。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action">参加する</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -115,7 +968,7 @@
         <div class="contact-text">
             <h2>楽曲制作等のお問い合わせ(CONTACT)</h2>
             <p>下記フォームより必要事項を記入いただきSendボタンを押してください。(Please fill in the necessary information on the form and press the send button.)</p>
-            <p><span class="highlight">イシダ テツヒロができること</span></p>
+            <p><span class="highlight">きること</span></p>
             <p><span class="highlight">・インスト曲の楽曲制作</span></p>
             <p><span class="highlight">・歌物の作曲、編曲</span></p>
 
@@ -132,51 +985,54 @@
                 <label for="subject">題名(Title):</label>
                 <input type="text" id="subject" name="subject" required>
                 <br>
-                <labelmessage for="message">メッセージ(Message):</labelmessage>
+                <label for="message">メッセージ(Message):</label>
                 <textarea id="message" name="message" required></textarea>
                 <br>
                 <button type="submit">Send</button>
             </form>
         </div>
         <div class="contact-image">
-            <img src="C:\Users\rukin\Desktop\ギター.jpeg" alt="Contact Image" style="width: 150px; border-radius: 50%;">
+            <img src="images/ illustration_2.png" alt="Contact Image" style="width: 300px; border-radius: 50%;">
         </div>
     </section>
 
-    <!-- フッター -->
-    <footer>
-        <p>&copy; 2024 Ishida Music Lounge . All Rights Reserved.</p>
-    </footer>
 
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<footer style="background-color: #333; color: white; text-align: center; padding: 5px 0; position: relative; bottom: 0; width: 100%;">
+    <p>&copy; 2024 Music Lounge. All rights reserved.</p>
+</footer>
 
-    <!-- Swiperの初期化 -->
-    <script>
-        const swiper = new Swiper('.swiper-container', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            centeredSlides: true,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                }
-            }
-        });
+
+<!-- SwiperJS CDN -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+<script>
+    // SwiperJSの初期化
+    var swiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 10000,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+    // スクロール時にプロフィールセクションが表示される処理
+    window.addEventListener('scroll', function() {
+        var profileSection = document.getElementById('profile');
+        var sectionPosition = profileSection.getBoundingClientRect().top;
+        var screenPosition = window.innerHeight / 1.3;
+
+        if (sectionPosition < screenPosition) {
+            profileSection.classList.add('active');
+        }
+    });
 
         window.addEventListener('scroll', function() {
             var profileSection = document.querySelector('.profile-section');
@@ -194,29 +1050,62 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const topicsSection = document.querySelector('.topics-section');
-            const topicsTitle = document.querySelector('.topics-title');
-            const topics = document.querySelectorAll('.topic');
+    // スクロール時にナビゲーションバーの背景色を変更
+    window.addEventListener('scroll', function() {
+        var nav = document.querySelector('nav');
+        if (window.scrollY > 50) {
+            nav.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+        } else {
+            nav.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        }
+    });
 
-            function checkScroll() {
-                const triggerBottom = window.innerHeight / 5 * 4;
-                const sectionTop = topicsSection.getBoundingClientRect().top;
+document.addEventListener('DOMContentLoaded', function() {
+    const modalBtns = document.querySelectorAll('[id^="modalBtn"]');
+    const modals = document.querySelectorAll('.modal');
+    const closeBtns = document.querySelectorAll('.close');
 
-                if (sectionTop < triggerBottom) {
-                    topicsTitle.classList.add('visible');
-                    topics.forEach((topic, index) => {
-                        setTimeout(() => {
-                            topic.classList.add('visible');
-                        }, index * 200);
-                    });
-                    window.removeEventListener('scroll', checkScroll);
-                }
-            }
-
-            window.addEventListener('scroll', checkScroll);
-            checkScroll();
+    // ボタンクリックでモーダルを開く
+    modalBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            modals[index].classList.add('active'); // モーダル表示
+            document.querySelector('nav').style.display = 'none'; // navを非表示にする
         });
+    });
+
+    // 閉じるボタンでモーダルを閉じる
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetModal = btn.getAttribute('data-target');
+            document.getElementById(targetModal).classList.remove('active'); // モーダル非表示
+            document.querySelector('nav').style.display = ''; // navを再表示
+        });
+    });
+
+    // モーダルの外側をクリックして閉じる
+    window.addEventListener('click', (event) => {
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                modal.classList.remove('active'); // モーダル非表示
+                document.querySelector('nav').style.display = ''; // navを再表示
+            }
+        });
+    });
+});
+
+
+    window.addEventListener('scroll', function() {
+        var nav = document.querySelector('nav');
+        var scrollPosition = window.scrollY;
+
+        // スクロール位置が50px以上ならnavを表示する
+        if (scrollPosition > 50) {
+            nav.classList.add('visible');
+        } else {
+            nav.classList.remove('visible');
+        }
+    });
+
     </script>
 </body>
 </html>
