@@ -625,23 +625,7 @@ nav ul li a.active {
 .contact-image img {
     width: 300px;
     border-radius: 50%;
-    transition: transform 0.3s ease; /* スムーズな動きのために追加 */
-}
-    @keyframes jump {
-    0%, 100% {
-        transform: translateY(0); /* 元の位置に */
-    }
-    30% {
-        transform: translateY(-30px); /* 上に跳ねる */
-    }
-    60% {
-        transform: translateY(-15px); /* 少しだけ跳ね返る */
-    }
-}
-    .jump-image.clicked {
-    animation: jump 0.5s ease; /* 0.5秒で跳ねるアニメーション */
-}
-    
+}    
     .highlight {
         background-color: rgba(255, 140, 0, 0.3); /* 薄いオレンジ */
         padding: 0 5px;
@@ -881,7 +865,12 @@ nav ul li a.active {
     .contact-image img {
     width: 150px;
     height: auto;
+    transition: transform 0.3s ease; /* スムーズな動きのために追加 */
    }
+
+    .jump-image.clicked {
+    animation: jump 0.5s ease; /* 0.5秒で跳ねるアニメーション */
+}
     @keyframes float {
     0% {
         transform: translate(0, 0);
@@ -893,6 +882,18 @@ nav ul li a.active {
         transform: translate(0, 0); /* 元の位置に戻る */
     }
 }
+    @keyframes jump {
+    0%, 100% {
+        transform: translateY(0); /* 元の位置に */
+    }
+    30% {
+        transform: translateY(-30px); /* 上に跳ねる */
+    }
+    60% {
+        transform: translateY(-15px); /* 少しだけ跳ね返る */
+    }
+}
+    
     /* フッター */
     footer {
         font-size: 0.9em; /* フッターの文字サイズを小さく */
