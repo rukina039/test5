@@ -625,7 +625,23 @@ nav ul li a.active {
 .contact-image img {
     width: 300px;
     border-radius: 50%;
+    transition: transform 0.3s ease; /* スムーズな動きのために追加 */
 }
+    @keyframes jump {
+    0%, 100% {
+        transform: translateY(0); /* 元の位置に */
+    }
+    30% {
+        transform: translateY(-30px); /* 上に跳ねる */
+    }
+    60% {
+        transform: translateY(-15px); /* 少しだけ跳ね返る */
+    }
+}
+    .jump-image.clicked {
+    animation: jump 0.5s ease; /* 0.5秒で跳ねるアニメーション */
+}
+    
     .highlight {
         background-color: rgba(255, 140, 0, 0.3); /* 薄いオレンジ */
         padding: 0 5px;
@@ -1146,7 +1162,7 @@ nav ul li a.active {
             </form>
         </div>
         <div class="contact-image">
-            <img src="images/イシダテツヒロ_ニッコリ.png" alt="Contact Image" style="width: 300px; border-radius: 50%;">
+            <img src="images/イシダテツヒロ_ニッコリ.png" alt="Contact Image"　class="jump-image">
         </div>
     </section>
 
@@ -1270,6 +1286,16 @@ document.addEventListener('DOMContentLoaded', function() {
             nav.classList.remove('visible');
         }
     });
+    const image = document.querySelector('.jump-image');
+
+image.addEventListener('click', () => {
+    image.classList.add('clicked');
+
+    // アニメーションが終わった後にクラスを削除して、再度クリックで跳ねるようにする
+    image.addEventListener('animationend', () => {
+        image.classList.remove('clicked');
+    });
+});
 
     </script>
 </body>
