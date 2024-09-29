@@ -940,12 +940,6 @@ nav ul li a.active {
     </section>
 
 <!-- Swiper スライドショー -->
-<div class="swiper-section">
-    <div class="swiper-container">
-        <div class="swiper-wrapper" id="youtube-slides">
-            <!-- JavaScriptで動画のスライドがここに挿入されます -->
-        </div>
-
 <section class="swiper-section">
     <div class="swiper-container">
         <div class="swiper-wrapper">
@@ -968,6 +962,11 @@ nav ul li a.active {
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
                 <iframe src="https://www.youtube.com/embed/n_K9PfgQQko?si=bm6LjQMTamAKEZh4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            
+            <!-- JavaScriptで追加される最新のYouTube動画 -->
+            <div class="swiper-slide" id="youtube-slides">
+            <!-- 最新の動画はここにJavaScriptで挿入されます -->
             </div>
 
         </div>
