@@ -940,13 +940,15 @@ nav ul li a.active {
     </section>
 
 <!-- Swiper スライドショー -->
+<div class="swiper-section">
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="youtube-slides">
+            <!-- JavaScriptで動画のスライドがここに挿入されます -->
+        </div>
+
 <section class="swiper-section">
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            
-            <div class="swiper-slide" id="youtube-slides">
-            <!-- 動画のスライドはJavaScriptで追加 -->
-            </div>
             
             <!-- youtube埋め込みスライド -->
             <div class="swiper-slide">
@@ -1288,63 +1290,70 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     const image = document.querySelector('.jump-image');
 
-    // Youtubeの最新動画を更新する
-    const API_KEY = 'AIzaSyCbCqqeAOCAflQlhGjGTfxLnFg5pNw0CIk';  // ここにYouTube APIキーを入れてください
-    const CHANNEL_ID = 'UCpI9-Zb9cgYSUks_iouuA_w';    // チャンネルIDを入れてください
-    const MAX_RESULTS = 2;                   // 取得する動画の数
-    const CACHE_KEY = 'youtube_cache';       // キャッシュ用のキー
-    const CACHE_EXPIRY_KEY = 'youtube_cache_expiry'; // キャッシュの有効期限
+// YouTube APIキーとチャンネルIDの設定
+const API_KEY = 'AIzaSyCbCqqeAOCAflQlhGjGTfxLnFg5pNw0CIk';  // ここにYouTube APIキーを入れてください
+const CHANNEL_ID = 'UCpI9-Zb9cgYSUks_iouuA_w';  // チャンネルID
+const MAX_RESULTS = 2;  // 取得する動画の数
+const CACHE_KEY = 'youtube_cache';  // キャッシュ用のキー
+const CACHE_EXPIRY_KEY = 'youtube_cache_expiry';  // キャッシュの有効期限
+const CACHE_EXPIRY_DURATION = 24 * 60 * 60 * 1000;  // 1日（ミリ秒）
 
-    // 1日に1回だけデータを更新するために、キャッシュの有効期限を設定
-    const CACHE_EXPIRY_DURATION = 24 * 60 * 60 * 1000; // 1日（ミリ秒換算）
+// 最新動画を取得する関数
+function getLatestVideos() {
+    const cachedVideos = localStorage.getItem(CACHE_KEY);
+    const cacheExpiry = localStorage.getItem(CACHE_EXPIRY_KEY);
+    const now = new Date().getTime();
 
-    function getLatestVideos() {
-        const cachedVideos = localStorage.getItem(CACHE_KEY);
-        const cacheExpiry = localStorage.getItem(CACHE_EXPIRY_KEY);
-        const now = new Date().getTime();
+    if (cachedVideos && cacheExpiry && now < cacheExpiry) {
+        // キャッシュが有効ならそれを使用
+        displayVideos(JSON.parse(cachedVideos));
+    } else {
+        // APIから動画を取得
+        fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}`)
+            .then(response => response.json())
+            .then(data => {
+                const videos = data.items
+                    .filter(item => item.id.videoId)  // videoIdが存在するものだけを取得
+                    .map(item => item.id.videoId);
 
-        // キャッシュがあり、かつ期限内であれば、キャッシュを使用
-        if (cachedVideos && cacheExpiry && now < cacheExpiry) {
-            displayVideos(JSON.parse(cachedVideos));
-        } else {
-            // APIから新しいデータを取得
-            fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}`)
-                .then(response => response.json())
-                .then(data => {
-                    const videos = data.items.map(item => item.id.videoId);
-                    // キャッシュに保存
-                    localStorage.setItem(CACHE_KEY, JSON.stringify(videos));
-                    localStorage.setItem(CACHE_EXPIRY_KEY, now + CACHE_EXPIRY_DURATION);
-                    displayVideos(videos);
-                })
-                .catch(error => console.error('Error:', error));
-        }
+                // キャッシュに保存
+                localStorage.setItem(CACHE_KEY, JSON.stringify(videos));
+                localStorage.setItem(CACHE_EXPIRY_KEY, now + CACHE_EXPIRY_DURATION);
+                displayVideos(videos);
+            })
+            .catch(error => console.error('Error:', error));
     }
+}
 
-    function displayVideos(videos) {
-        const slidesContainer = document.getElementById('youtube-slides');
-        slidesContainer.innerHTML = ''; // スライドをリセット
+// 取得した動画をSwiperに表示する関数
+function displayVideos(videos) {
+    const slidesContainer = document.getElementById('youtube-slides');
+    slidesContainer.innerHTML = '';  // スライドをリセット
 
-        videos.forEach(videoId => {
-            const iframe = `<div class="swiper-slide"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe></div>`;
-            slidesContainer.innerHTML += iframe;
-        });
+    videos.forEach(videoId => {
+        const iframe = `<div class="swiper-slide"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe></div>`;
+        slidesContainer.innerHTML += iframe;
+    });
 
-        // Swiperの初期化
-        new Swiper('.swiper-container', {
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-        });
-    }
+    // Swiperの再初期化
+    new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 10000,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+}
 
-    // ページ読み込み時に最新の動画を取得
-    window.onload = getLatestVideos;
+// ページ読み込み時に最新の動画を取得
+window.onload = getLatestVideos;
     
     </script>
 </body>
